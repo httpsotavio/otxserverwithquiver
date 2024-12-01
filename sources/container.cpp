@@ -273,6 +273,10 @@ ReturnValue Container::__queryAdd(int32_t index, const Thing* thing, uint32_t co
 	if(item == this)
 		return RET_THISISIMPOSSIBLE;
 
+	if (isQuiver() && item->getWeaponType() != WEAPON_AMMO)
+		return RET_THISISIMPOSSIBLE;
+
+
 	if(const Container* container = item->getContainer())
 	{
 		for(const Cylinder* cylinder = getParent(); cylinder; cylinder = cylinder->getParent())
@@ -479,7 +483,7 @@ void Container::__addThing(Creature*, int32_t index, Thing* thing)
 
 	item->setParent(this);
 	itemlist.push_front(item);
-
+	ammoCount += item->getItemCount();
 	totalWeight += item->getWeight();
 	if(Container* parentContainer = getParentContainer())
 		parentContainer->updateItemWeight(item->getWeight());
@@ -518,6 +522,7 @@ void Container::__updateThing(Thing* thing, uint16_t itemId, uint32_t count)
 
 	const double diffWeight = -oldWeight + item->getWeight();
 	totalWeight += diffWeight;
+	ammoCount += item->getItemCount();
 	if(Container* parentContainer = getParentContainer())
 		parentContainer->updateItemWeight(diffWeight);
 
@@ -562,6 +567,8 @@ void Container::__replaceThing(uint32_t index, Thing* thing)
 
 	itemlist.insert(cit, item);
 	item->setParent(this);
+	ammoCount -= item->getItemCount();
+	ammoCount += count;
 	//send change to client
 	if(getParent())
 	{
@@ -602,7 +609,7 @@ void Container::__removeThing(Thing* thing, uint32_t count)
 #endif
 		return /*RET_NOTPOSSIBLE*/;
 	}
-
+	ammoCount -= item->getItemCount();
 	if(item->isStackable() && count != item->getItemCount())
 	{
 		const double oldWeight = -item->getWeight();
@@ -765,6 +772,7 @@ void Container::__internalAddThing(uint32_t
 
 	itemlist.push_front(item);
 	item->setParent(this);
+	ammoCount += item->getItemCount();
 
 	totalWeight += item->getWeight();
 	if(Container* parentContainer = getParentContainer())

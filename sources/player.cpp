@@ -313,6 +313,7 @@ Item* Player::getWeapon(bool ignoreAmmo)
 	Item* item = NULL;
 	for(int32_t slot = SLOT_RIGHT; slot <= SLOT_LEFT; ++slot)
 	{
+
 		if(!(item = getEquippedItem((slots_t)slot)) || item->getWeaponType() != WEAPON_DIST)
 			continue;
 
@@ -324,9 +325,9 @@ Item* Player::getWeapon(bool ignoreAmmo)
 				if(g_weapons->getWeapon(ammoItem))
 					return ammoItem;
 			}
-		}
-		else if(g_weapons->getWeapon(item))
+		} else if(g_weapons->getWeapon(item)) {
 			return item;
+		}
 	}
 
 	return NULL;
@@ -348,13 +349,45 @@ ItemVector Player::getWeapons() const
 
 			case WEAPON_DIST:
 			{
-				if(item->getAmmoType() != AMMO_NONE)
-				{
+				if (item->getAmmoType() != AMMO_NONE) {
 					Item* ammoItem = getInventoryItem(SLOT_AMMO);
-					if(ammoItem && ammoItem->getAmmoType() == item->getAmmoType() && ammoItem->getWeaponType() != WEAPON_DIST)
-						item = ammoItem;
-					else
-						break;
+					Item* weaponItem = item;
+
+					if (item->getAmmoType() != AMMO_NONE) {
+						Item* ammoItem = getInventoryItem(SLOT_AMMO); // Verifica slot de munição
+						Item* weaponItem = item; // Arma atualmente sendo processada
+						bool foundAmmo = false; // Indica se munição foi encontrada
+
+						if (ammoItem && ammoItem->getWeaponType() == WEAPON_AMMO) {
+							if (ammoItem->getAmmoType() == item->getAmmoType()) {
+								item = ammoItem;
+								foundAmmo = true; // Munição válida encontrada
+							} else {
+								item = nullptr;
+							}
+						} else {
+							// Verifica munição no quiver (slot direito)
+							Item* quiver = getInventoryItem(SLOT_RIGHT);
+							if (quiver && quiver->isQuiver()) {
+								Container* quiverContainer = quiver->getContainer();
+								if (quiverContainer) {
+									for (ItemList::const_iterator cit = quiverContainer->getItems(); cit != quiverContainer->getEnd(); ++cit) {
+										if ((*cit)->getAmmoType() == weaponItem->getAmmoType()) {
+											item = (*cit);
+											foundAmmo = true; // Munição válida encontrada
+											break;
+										}
+									}
+								}
+							}
+						}
+
+						// Se nenhuma munição foi encontrada, define item como nullptr
+						if (!foundAmmo) {
+							item = nullptr; // Impede o uso do arco
+							continue; // Pula para o próximo slot no loop
+						}
+					}
 				}
 			}
 
@@ -3032,6 +3065,11 @@ ReturnValue Player::__queryAdd(int32_t index, const Thing* thing, uint32_t count
 				{
 					const Item* leftItem = inventory[SLOT_LEFT];
 					WeaponType_t type = item->getWeaponType(), leftType = leftItem->getWeaponType();
+					if (type == WEAPON_QUIVER && leftType == WEAPON_DIST) {
+						ret = RET_NOERROR;
+						return ret;
+					}
+
 					if(leftItem->getSlotPosition() & SLOTP_TWO_HAND)
 						ret = RET_DROPTWOHANDEDITEM;
 					else if(item == leftItem && count == item->getItemCount())
@@ -3053,6 +3091,13 @@ ReturnValue Player::__queryAdd(int32_t index, const Thing* thing, uint32_t count
 		case SLOT_LEFT:
 			if(item->getSlotPosition() & SLOTP_LEFT)
 			{
+				if (inventory[SLOT_RIGHT]) {
+					const Item* rightItem = inventory[SLOT_RIGHT];
+					if (item->getWeaponType() == WEAPON_DIST && rightItem->isQuiver()) {
+						ret = RET_NOERROR;
+						return ret;
+					}
+				}
 				if(!g_config.getBool(ConfigManager::CLASSIC_EQUIPMENT_SLOTS))
 				{
 					if(!item->isWeapon() || item->getWeaponType() == WEAPON_SHIELD)

@@ -968,7 +968,9 @@ void Items::parseItemNode(xmlNodePtr itemNode, uint32_t id)
 				else if(tmpStrValue == "ammunition" || tmpStrValue == "ammo")
 					it.weaponType = WEAPON_AMMO;
 				else if(tmpStrValue == "fist")
-					it.weaponType = WEAPON_FIST;
+					it.weaponType = WEAPON_FIST;				
+				else if(tmpStrValue == "quiver")
+					it.weaponType = WEAPON_QUIVER;
 				else
 					std::clog << "[Warning - Items::loadFromXml] Unknown weaponType " << strValue << std::endl;
 			}
