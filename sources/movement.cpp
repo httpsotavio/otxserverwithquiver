@@ -1074,7 +1074,50 @@ bool MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, slot
 	{
 		if(it.abilities->stats[s])
 		{
-			player->setVarStats((stats_t)s, it.abilities->stats[s]);
+			int32_t statValue = it.abilities->stats[s];
+			switch (s) {
+				case STAT_MAGICLEVELEARTH:
+					if (item->getMagicLevelEarth() != 0) {
+						statValue = item->getMagicLevelEarth();
+					}
+					break;				
+				case STAT_MAGICLEVELENERGY:
+					if (item->getMagicLevelEnergy() != 0) {
+						statValue = item->getMagicLevelEnergy();
+					}
+					break;				
+				case STAT_MAGICLEVELDEATH:
+					if (item->getMagicLevelDeath() != 0) {
+						statValue = item->getMagicLevelDeath();
+					}
+					break;				
+				case STAT_MAGICLEVELFIRE:
+					if (item->getMagicLevelFire() != 0) {
+						statValue = item->getMagicLevelFire();
+					}
+					break;				
+				case STAT_MAGICLEVELICE:
+					if (item->getMagicLevelIce() != 0) {
+						statValue = item->getMagicLevelIce();
+					}
+					break;				
+				case STAT_MAGICLEVELHOLY:
+					if (item->getMagicLevelHoly() != 0) {
+						statValue = item->getMagicLevelHoly();
+					}
+					break;				
+				case STAT_MAGICLEVELPHYSICAL:
+					if (item->getMagicLevelPhysical() != 0) {
+						statValue = item->getMagicLevelPhysical();
+					}
+					break;				
+				case STAT_CRITICALHITDAMAGE:
+					if (item->getCriticalHitDamage() != 0) {
+						statValue = item->getCriticalHitDamage();
+					}
+					break;
+			}
+			player->setVarStats((stats_t)s, statValue);
 			if(!needUpdateStats)
 				needUpdateStats = true;
 		}
@@ -1152,7 +1195,51 @@ bool MoveEvent::DeEquipItem(MoveEvent*, Player* player, Item* item, slots_t slot
 		if(it.abilities->stats[s])
 		{
 			needUpdateStats = true;
-			player->setVarStats((stats_t)s, -it.abilities->stats[s]);
+
+			int32_t statValue = it.abilities->stats[s];
+			switch (s) {
+				case STAT_MAGICLEVELEARTH:
+					if (item->getMagicLevelEarth() != 0) {
+						statValue = item->getMagicLevelEarth();
+					}
+					break;				
+				case STAT_MAGICLEVELENERGY:
+					if (item->getMagicLevelEnergy() != 0) {
+						statValue = item->getMagicLevelEnergy();
+					}
+					break;				
+				case STAT_MAGICLEVELDEATH:
+					if (item->getMagicLevelDeath() != 0) {
+						statValue = item->getMagicLevelDeath();
+					}
+					break;				
+				case STAT_MAGICLEVELFIRE:
+					if (item->getMagicLevelFire() != 0) {
+						statValue = item->getMagicLevelFire();
+					}
+					break;				
+				case STAT_MAGICLEVELICE:
+					if (item->getMagicLevelIce() != 0) {
+						statValue = item->getMagicLevelIce();
+					}
+					break;				
+				case STAT_MAGICLEVELHOLY:
+					if (item->getMagicLevelHoly() != 0) {
+						statValue = item->getMagicLevelHoly();
+					}
+					break;				
+				case STAT_MAGICLEVELPHYSICAL:
+					if (item->getMagicLevelPhysical() != 0) {
+						statValue = item->getMagicLevelPhysical();
+					}
+					break;				
+				case STAT_CRITICALHITDAMAGE:
+					if (item->getCriticalHitDamage() != 0) {
+						statValue = item->getCriticalHitDamage();
+					}
+					break;
+			}
+			player->setVarStats((stats_t)s, -statValue);
 		}
 
 		if(it.abilities->statsPercent[s])

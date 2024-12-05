@@ -115,6 +115,14 @@ enum AttrTypes_t
 	ATTR_DUALWIELD = 43,
 	ATTR_CRITICALHITCHANCE = 44,
 	ATTR_REDUCE_SKILL_LOSS = 45,
+	ATTR_MAGICLEVEL_EARTH = 46,
+	ATTR_MAGICLEVEL_ENERGY = 47,
+	ATTR_MAGICLEVEL_FIRE = 48,
+	ATTR_MAGICLEVEL_ICE = 49,
+	ATTR_MAGICLEVEL_HOLY = 50,
+	ATTR_MAGICLEVEL_DEATH = 51,
+	ATTR_MAGICLEVEL_PHYSICAL = 52,
+	ATTR_CRITICALHITDAMAGE = 53,
 	ATTR_ATTRIBUTE_MAP = 128
 };
 
@@ -262,6 +270,15 @@ class Item : virtual public Thing, public ItemAttributes
 		int32_t getExtraAttack() const;
 		int32_t getDefense() const;
 		int32_t getExtraDefense() const;
+		int32_t getMagicLevelEarth() const;
+		int32_t getMagicLevelEnergy() const;
+		int32_t getMagicLevelFire() const;
+		int32_t getMagicLevelIce() const;
+		int32_t getMagicLevelHoly() const;
+		int32_t getMagicLevelDeath() const;
+		int32_t getMagicLevelPhysical() const;
+		int32_t getCriticalHitDamage() const;
+
 
 		int32_t getArmor() const;
 		int32_t getAttackSpeed() const;
@@ -407,8 +424,112 @@ inline int32_t Item::getCriticalHitChance() const
 	int32_t v = getIntegerAttribute("criticalhitchance", ok);
 	if(ok)
 		return v;
-
+	
 	return items[id].criticalHitChance;
+}
+
+inline int32_t Item::getMagicLevelEarth() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelearth", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELEARTH])
+		return stat;
+
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelEnergy() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelenergy", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELENERGY])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelFire() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelfire", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELFIRE])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelIce() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelice", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELICE])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelHoly() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelholy", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELHOLY])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelDeath() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magicleveldeath", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELDEATH])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getMagicLevelPhysical() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("magiclevelphysical", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_MAGICLEVELPHYSICAL])
+		return stat;
+		
+	return 0;
+}
+
+inline int32_t Item::getCriticalHitDamage() const
+{
+	bool ok;
+	int32_t v = getIntegerAttribute("criticalhitdamage", ok);
+	if(ok)
+		return v;
+
+	if (int32_t stat = items[id].abilities->stats[STAT_CRITICALHITDAMAGE])
+		return stat;
+		
+	return 0;
 }
 
 inline int32_t Item::getAttack() const

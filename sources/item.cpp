@@ -442,6 +442,75 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
+		case ATTR_MAGICLEVEL_EARTH:
+		{
+			int32_t MLEarth;
+			if(!propStream.getLong((uint32_t&)MLEarth))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelearth", MLEarth);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_ENERGY:
+		{
+			int32_t MLEnergy;
+			if(!propStream.getLong((uint32_t&)MLEnergy))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelenergy", MLEnergy);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_FIRE:
+		{
+			int32_t MLfire;
+			if(!propStream.getLong((uint32_t&)MLfire))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelfire", MLfire);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_ICE:
+		{
+			int32_t MLice;
+			if(!propStream.getLong((uint32_t&)MLice))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelice", MLice);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_HOLY:
+		{
+			int32_t MLholy;
+			if(!propStream.getLong((uint32_t&)MLholy))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelholy", MLholy);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_DEATH:
+		{
+			int32_t MLdeath;
+			if(!propStream.getLong((uint32_t&)MLdeath))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magicleveldeath", MLdeath);
+			break;
+		}
+
+		case ATTR_MAGICLEVEL_PHYSICAL:
+		{
+			int32_t MLphysical;
+			if(!propStream.getLong((uint32_t&)MLphysical))
+				return ATTR_READ_ERROR;
+
+			setAttribute("magiclevelphysical", MLphysical);
+			break;
+		}
 
 		case ATTR_EXTRAATTACK:
 		{
@@ -450,6 +519,16 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 				return ATTR_READ_ERROR;
 
 			setAttribute("extraattack", attack);
+			break;
+		}
+
+		case ATTR_CRITICALHITDAMAGE:
+		{
+			int32_t criticalHitDamage;
+			if(!propStream.getLong((uint32_t&)criticalHitDamage))
+				return ATTR_READ_ERROR;
+
+			setAttribute("criticalhitdamage", criticalHitDamage);
 			break;
 		}
 
@@ -1328,7 +1407,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVEL] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELENERGY])
+			if(item->getMagicLevelEnergy() != 0)
 			{
 				if(begin)
 				{
@@ -1341,7 +1420,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level energy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELENERGY] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELFIRE])
+			if(item->getMagicLevelFire() != 0)
 			{
 				if(begin)
 				{
@@ -1354,7 +1433,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level fire " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELFIRE] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELEARTH])
+			if(item->getMagicLevelEarth() != 0)
 			{
 				if(begin)
 				{
@@ -1367,7 +1446,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level earth " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELEARTH] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELICE])
+			if(item->getMagicLevelIce() != 0)
 			{
 				if(begin)
 				{
@@ -1380,7 +1459,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level ice " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELICE] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELHOLY])
+			if(item->getMagicLevelHoly() != 0)
 			{
 				if(begin)
 				{
@@ -1393,7 +1472,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level holy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELHOLY] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELDEATH])
+			if(item->getMagicLevelDeath() != 0)
 			{
 				if(begin)
 				{
@@ -1406,7 +1485,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level death " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELDEATH] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_MAGICLEVELPHYSICAL])
+			if(item->getMagicLevelPhysical() != 0)
 			{
 				if(begin)
 				{
@@ -1419,7 +1498,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				s << "magic level physical " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELPHYSICAL] << std::noshowpos;
 			}
 
-			if(it.abilities->stats[STAT_CRITICALHITDAMAGE])
+			if(item->getCriticalHitDamage() != 0)
 			{
 				if(begin)
 				{

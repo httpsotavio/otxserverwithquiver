@@ -10847,6 +10847,14 @@ int32_t LuaInterface::luaGetItemInfo(lua_State* L)
 	setField(L, "writer", item->writer);
 	setField(L, "text", item->text);
 	setField(L, "criticalHitChance", item->criticalHitChance);
+	setField(L, "criticalHitDamage", item->abilities->stats[STAT_CRITICALHITDAMAGE]);
+	setField(L, "magicLevelEarth", item->abilities->stats[STAT_MAGICLEVELEARTH]);
+	setField(L, "magicLevelEnergy", item->abilities->stats[STAT_MAGICLEVELENERGY]);
+	setField(L, "magicLevelFire", item->abilities->stats[STAT_MAGICLEVELFIRE]);
+	setField(L, "magicLevelIce", item->abilities->stats[STAT_MAGICLEVELICE]);
+	setField(L, "magicLevelHoly", item->abilities->stats[STAT_MAGICLEVELHOLY]);
+	setField(L, "magicLevelDeath", item->abilities->stats[STAT_MAGICLEVELDEATH]);
+	setField(L, "magicLevelPhysical", item->abilities->stats[STAT_MAGICLEVELPHYSICAL]);
 	setField(L, "attack", item->attack);
 	setField(L, "reduceskillloss", item->reduceSkillLoss);
 	setField(L, "extraAttack", item->extraAttack);
