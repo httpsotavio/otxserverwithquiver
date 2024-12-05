@@ -60,8 +60,9 @@ bool Combat::getMinMaxValues(Creature* creature, Creature* target, CombatParams&
 {
 	if(creature)
 	{
-		if(creature->getCombatValues(min, max))
+		if(creature->getCombatValues(min, max)) {
 			return true;
+		}
 
 		if(Player* player = creature->getPlayer())
 		{
@@ -77,7 +78,6 @@ bool Combat::getMinMaxValues(Creature* creature, Creature* target, CombatParams&
 				case FORMULA_LEVELMAGIC:
 				{
 					uint32_t magLevel = player->getMagicLevel();
-					std::cout << "player maglevel: " << magLevel << std::endl;
 					switch (_params.combatType) {
 						case COMBAT_ENERGYDAMAGE:
 							magLevel += player->getVarStats(STAT_MAGICLEVELENERGY);
@@ -111,7 +111,6 @@ bool Combat::getMinMaxValues(Creature* creature, Creature* target, CombatParams&
 							break;
 					}
 
-					std::cout << "player maglevel extra stats: " << magLevel << std::endl;
 
 					min = (int32_t)((player->getLevel() / minl + magLevel * minm) * 1. * mina + minb);
 					max = (int32_t)((player->getLevel() / maxl + magLevel * maxm) * 1. * maxa + maxb);
@@ -134,8 +133,42 @@ bool Combat::getMinMaxValues(Creature* creature, Creature* target, CombatParams&
 						_params.element.type = item->getElementType();
 						if(_params.element.type != COMBAT_NONE)
 						{
+							int32_t extraDmg = 0;
+							switch (_params.element.type) {
+								case COMBAT_ENERGYDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELENERGY);
+									break;						
+									
+								case COMBAT_FIREDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELFIRE);
+									break;		
+
+								case COMBAT_EARTHDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELEARTH);
+									break;
+
+								case COMBAT_ICEDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELICE);
+									break;
+
+								case COMBAT_HOLYDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELHOLY);
+									break;
+
+								case COMBAT_DEATHDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELDEATH);
+									break;
+
+								case COMBAT_PHYSICALDAMAGE:
+									extraDmg += player->getVarStats(STAT_MAGICLEVELPHYSICAL);
+									break;
+
+								default:
+									break;
+							}
 							_params.element.damage = weapon->getWeaponElementDamage(player, item, true);
-							_params.element.damage = random_range((int32_t)0, (int32_t)(_params.element.damage * maxa + maxb), DISTRO_NORMAL);
+							_params.element.damage = random_range((int32_t)0, (int32_t)(_params.element.damage * maxa + (maxb + extraDmg)), DISTRO_NORMAL);
+							
 						}
 
 						max = (int32_t)(weapon->getWeaponDamage(player, target, item, crit, true) * maxa + maxb);
@@ -1122,7 +1155,43 @@ void ValueCallback::getMinMaxValues(Player* player, CombatParams& params, int32_
 		{
 			//"onGetPlayerMinMaxValues"(cid, level, magLevel)
 			lua_pushnumber(L, player->getLevel());
-			lua_pushnumber(L, player->getMagicLevel());
+
+			uint32_t magLevel = player->getMagicLevel();
+
+			switch (params.combatType) {
+				case COMBAT_ENERGYDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELENERGY);
+					break;						
+							
+				case COMBAT_FIREDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELFIRE);
+					break;		
+
+				case COMBAT_EARTHDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELEARTH);
+					break;
+
+				case COMBAT_ICEDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELICE);
+					break;
+
+				case COMBAT_HOLYDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELHOLY);
+					break;
+
+				case COMBAT_DEATHDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELDEATH);
+					break;
+
+				case COMBAT_PHYSICALDAMAGE:
+					magLevel += player->getVarStats(STAT_MAGICLEVELPHYSICAL);
+					break;
+
+				default:
+					break;
+					}
+
+			lua_pushnumber(L, magLevel);
 
 			parameters += 2;
 			break;
@@ -1145,6 +1214,38 @@ void ValueCallback::getMinMaxValues(Player* player, CombatParams& params, int32_
 						attack += bow->getAttack() + bow->getExtraAttack();
 				}
 
+				switch (params.combatType) {
+					case COMBAT_ENERGYDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELENERGY);
+						break;						
+							
+					case COMBAT_FIREDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELFIRE);
+						break;		
+
+					case COMBAT_EARTHDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELEARTH);
+						break;
+
+					case COMBAT_ICEDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELICE);
+						break;
+
+					case COMBAT_HOLYDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELHOLY);
+						break;
+
+					case COMBAT_DEATHDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELDEATH);
+						break;
+
+					case COMBAT_PHYSICALDAMAGE:
+						attack += player->getVarStats(STAT_MAGICLEVELPHYSICAL);
+						break;
+
+					default:
+						break;
+				}
 				/*Fix infinite damage at physical*/
 				if (weapon->getElementType() != COMBAT_NONE)
 				{
@@ -1157,7 +1258,6 @@ void ValueCallback::getMinMaxValues(Player* player, CombatParams& params, int32_
 					{
 						attack -= weapon->getElementDamage();
 					}
-
 					lua_pushnumber(L, attack);
 					lua_pushnumber(L, weapon->getElementDamage());
 					params.element.type = weapon->getElementType();
