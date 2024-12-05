@@ -76,8 +76,45 @@ bool Combat::getMinMaxValues(Creature* creature, Creature* target, CombatParams&
 			{
 				case FORMULA_LEVELMAGIC:
 				{
-					min = (int32_t)((player->getLevel() / minl + player->getMagicLevel() * minm) * 1. * mina + minb);
-					max = (int32_t)((player->getLevel() / maxl + player->getMagicLevel() * maxm) * 1. * maxa + maxb);
+					uint32_t magLevel = player->getMagicLevel();
+					std::cout << "player maglevel: " << magLevel << std::endl;
+					switch (_params.combatType) {
+						case COMBAT_ENERGYDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELENERGY);
+							break;						
+							
+						case COMBAT_FIREDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELFIRE);
+							break;		
+
+						case COMBAT_EARTHDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELEARTH);
+							break;
+
+						case COMBAT_ICEDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELICE);
+							break;
+
+						case COMBAT_HOLYDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELHOLY);
+							break;
+
+						case COMBAT_DEATHDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELDEATH);
+							break;
+
+						case COMBAT_PHYSICALDAMAGE:
+							magLevel += player->getVarStats(STAT_MAGICLEVELPHYSICAL);
+							break;
+
+						default:
+							break;
+					}
+
+					std::cout << "player maglevel extra stats: " << magLevel << std::endl;
+
+					min = (int32_t)((player->getLevel() / minl + magLevel * minm) * 1. * mina + minb);
+					max = (int32_t)((player->getLevel() / maxl + magLevel * maxm) * 1. * maxa + maxb);
 					if(minc && std::abs(min) < std::abs(minc))
 						min = minc;
 

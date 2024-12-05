@@ -350,9 +350,6 @@ ItemVector Player::getWeapons() const
 			case WEAPON_DIST:
 			{
 				if (item->getAmmoType() != AMMO_NONE) {
-					Item* ammoItem = getInventoryItem(SLOT_AMMO);
-					Item* weaponItem = item;
-
 					if (item->getAmmoType() != AMMO_NONE) {
 						Item* ammoItem = getInventoryItem(SLOT_AMMO); // Verifica slot de munição
 						Item* weaponItem = item; // Arma atualmente sendo processada

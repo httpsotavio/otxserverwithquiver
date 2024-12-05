@@ -952,6 +952,110 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 			s << "Crit Chance:" << std::showpos << int32_t(item ? item->getCriticalHitChance() : it.criticalHitChance) << "%"<< std::noshowpos;
 		}
 
+		if(it.abilities->stats[STAT_MAGICLEVELENERGY])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level energy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELENERGY] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELFIRE])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level fire " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELFIRE] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELEARTH])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level earth " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELEARTH] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELICE])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level ice " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELICE] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELHOLY])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level holy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELHOLY] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELDEATH])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level death " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELDEATH] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_MAGICLEVELPHYSICAL])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "magic level physical " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELPHYSICAL] << std::noshowpos;
+		}
+
+		if(it.abilities->stats[STAT_CRITICALHITDAMAGE])
+		{
+			if(begin)
+			{
+				begin = false;
+				s << " (";
+			}
+			else
+				s << ", ";
+
+			s << "critical hit damage " << std::showpos << (int32_t)it.abilities->stats[STAT_CRITICALHITDAMAGE] << std::noshowpos << "%";
+		}
+
 		if(it.attackSpeed || (item && item->getAttackSpeed()))
 		{
 			if(begin)

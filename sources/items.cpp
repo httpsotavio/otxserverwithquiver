@@ -1107,6 +1107,46 @@ void Items::parseItemNode(xmlNodePtr itemNode, uint32_t id)
 			if(readXMLInteger(itemAttributesNode, "value", intValue))
 				it.showDuration = (intValue != 0);
 		}
+		else if(tmpStrValue == "magiclevelenergy")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELENERGY] = intValue;
+		}
+		else if(tmpStrValue == "magiclevelfire")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELFIRE] = intValue;
+		}
+		else if(tmpStrValue == "magiclevelearth")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELEARTH] = intValue;
+		}
+		else if(tmpStrValue == "magiclevelice")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELICE] = intValue;
+		}
+		else if(tmpStrValue == "magiclevelholy")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELHOLY] = intValue;
+		}
+		else if(tmpStrValue == "magicleveldeath")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELDEATH] = intValue;
+		}
+		else if(tmpStrValue == "magiclevelphysical")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_MAGICLEVELPHYSICAL] = intValue;
+		}
+		else if(tmpStrValue == "criticalhitdamage")
+		{
+			if(readXMLInteger(itemAttributesNode, "value", intValue))
+				it.getAbilities()->stats[STAT_CRITICALHITDAMAGE] = intValue;
+		}
 		else if(tmpStrValue == "charges")
 		{
 			if(readXMLInteger(itemAttributesNode, "value", intValue))
