@@ -1417,7 +1417,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level energy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELENERGY] << std::noshowpos;
+				s << "magic level energy " << std::showpos << item->getMagicLevelEnergy() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelFire() != 0)
@@ -1430,7 +1430,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level fire " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELFIRE] << std::noshowpos;
+				s << "magic level fire " << std::showpos << item->getMagicLevelFire() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelEarth() != 0)
@@ -1443,7 +1443,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level earth " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELEARTH] << std::noshowpos;
+				s << "magic level earth " << std::showpos << item->getMagicLevelEarth() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelIce() != 0)
@@ -1456,7 +1456,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level ice " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELICE] << std::noshowpos;
+				s << "magic level ice " << std::showpos << item->getMagicLevelIce() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelHoly() != 0)
@@ -1469,7 +1469,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level holy " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELHOLY] << std::noshowpos;
+				s << "magic level holy " << std::showpos << item->getMagicLevelHoly() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelDeath() != 0)
@@ -1482,7 +1482,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level death " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELDEATH] << std::noshowpos;
+				s << "magic level death " << std::showpos << item->getMagicLevelDeath() << std::noshowpos;
 			}
 
 			if(item->getMagicLevelPhysical() != 0)
@@ -1495,7 +1495,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "magic level physical " << std::showpos << (int32_t)it.abilities->stats[STAT_MAGICLEVELPHYSICAL] << std::noshowpos;
+				s << "magic level physical " << std::showpos << item->getMagicLevelPhysical() << std::noshowpos;
 			}
 
 			if(item->getCriticalHitDamage() != 0)
@@ -1508,7 +1508,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const
 				else
 					s << ", ";
 
-				s << "critical hit damage " << std::showpos << (int32_t)it.abilities->stats[STAT_CRITICALHITDAMAGE] << std::noshowpos << "%";
+				s << "critical hit damage " << std::showpos << item->getCriticalHitDamage() << std::noshowpos << "%";
 			}
 
 			int32_t show = it.abilities->absorb[COMBAT_ALL];
